@@ -1,8 +1,9 @@
 [build]
 builder = "NIXPACKS"
+buildCommand = "npm ci --only=production"
 
 [deploy]
 startCommand = "node index.js"
 healthcheckPath = "/api/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
