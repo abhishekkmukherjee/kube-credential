@@ -23,9 +23,9 @@ A modern credential management system built with React frontend and Node.js micr
 
 ### Local Development
 
-1. **Clone the repository**
+1. **Extract and navigate to the project**
 ```bash
-git clone <repository-url>
+unzip kube-credential.zip
 cd kube-credential
 ```
 
