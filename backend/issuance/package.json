@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node server-direct.js",
+    "start": "node app.js",
     "start-old": "node index.js",
     "test": "jest",
     "test:watch": "jest --watch"
