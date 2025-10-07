@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verification-service
+  namespace: kube-credential
+  labels:
+    app: verification-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: verification-service
+  template:
+    metadata:
+      labels:
+        app: verification-service
+    spec:
+      containers:
+      - name: verification-service
+        image: kube-credential/verification-service:latest
+        ports:
+        - containerPort: 3002
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3002"
+        - name: WORKER_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ISSUANCE_SERVICE_URL
+          value: "http://issuance-service:3001"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3002
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3002
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: data-volume
+          mountPath: /app/data
+      volumes:
+      - name: data-volume
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: verification-service
+  namespace: kube-credential
+  labels:
+    app: verification-service
+spec:
+  selector:
+    app: verification-service
+  ports:
+  - protocol: TCP
+    port: 3002
+    targetPort: 3002
+  type: ClusterIP

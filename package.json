@@ -1,0 +1,24 @@
+{
+  "name": "kube-credential",
+  "version": "1.0.0",
+  "description": "Microservice-based credential issuance and verification system",
+  "scripts": {
+    "dev:issuance": "cd backend/issuance && npm run dev",
+    "dev:verification": "cd backend/verification && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "build:all": "npm run build:issuance && npm run build:verification && npm run build:frontend",
+    "build:issuance": "cd backend/issuance && npm run build",
+    "build:verification": "cd backend/verification && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test:all": "npm run test:issuance && npm run test:verification && npm run test:frontend",
+    "test:issuance": "cd backend/issuance && npm test",
+    "test:verification": "cd backend/verification && npm test",
+    "test:frontend": "cd frontend && npm test",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "keywords": ["microservices", "kubernetes", "credentials", "nodejs", "react"],
+  "author": "Developer",
+  "license": "MIT"
+}
