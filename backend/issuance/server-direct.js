@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 
 // Manual CORS headers - bulletproof approach
 app.use((req, res, next) => {
@@ -117,8 +117,9 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Credential Issuance Service running on port ${PORT}`);
-  console.log(`🔧 Worker ID: ${process.env.WORKER_ID || 'railway-issuance-worker-1'}`);
+  console.log(`🔧 Worker ID: ${process.env.WORKER_ID || 'render-issuance-worker-1'}`);
   console.log(`✅ CORS enabled for all origins`);
+  console.log(`🌐 Server listening on 0.0.0.0:${PORT}`);
 });
 
 module.exports = app;

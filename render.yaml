@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: kube-credential-frontend
+    env: node
+    buildCommand: cd frontend && npm ci && npm run build && npm install -g serve
+    startCommand: cd frontend && serve -s build -l $PORT
+    envVars:
+      - key: REACT_APP_ISSUANCE_API_URL
+        value: https://kube-credential-issuance.onrender.com/api
+      - key: REACT_APP_VERIFICATION_API_URL
+        value: https://kube-credential-verification.onrender.com/api
+
+  - type: web
+    name: kube-credential-issuance
+    env: node
+    buildCommand: cd backend/issuance && npm ci
+    startCommand: cd backend/issuance && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: WORKER_ID
+        value: render-issuance-worker-1
+
+  - type: web
+    name: kube-credential-verification
+    env: node
+    buildCommand: cd backend/verification && npm ci
+    startCommand: cd backend/verification && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3002
+      - key: WORKER_ID
+        value: render-verification-worker-1
+      - key: ISSUANCE_SERVICE_URL
+        value: https://kube-credential-issuance.onrender.com
