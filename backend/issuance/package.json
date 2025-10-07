@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "echo 'Using ts-node for Render'",
-    "start": "npx ts-node --transpile-only --ignore-diagnostics src/server.ts",
+    "build": "echo 'Using plain JavaScript for Render'",
+    "start": "node server.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -14,13 +14,7 @@
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
-    "sqlite3": "^5.1.6",
-    "uuid": "^9.0.1",
-    "typescript": "^5.3.2",
-    "ts-node": "^10.9.1",
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.10.0",
-    "@types/uuid": "^9.0.7"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.8",
