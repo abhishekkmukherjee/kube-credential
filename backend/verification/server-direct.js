@@ -56,20 +56,11 @@ app.post('/api/verify', async (req, res) => {
     console.log(`🔍 Verifying credential: ${credentialId}`);
     console.log(`📡 Contacting issuance service: ${issuanceUrl}`);
 
-    // Fetch credential from issuance service
-    const response = await fetch(`${issuanceUrl}/api/credentials/${credentialId}`);
+    // Fetch credential from issuance service using axios
+    const axios = require('axios');
+    const response = await axios.get(`${issuanceUrl}/api/credentials/${credentialId}`);
     
-    if (!response.ok) {
-      if (response.status === 404) {
-        return res.status(404).json({
-          success: false,
-          message: 'Credential not found'
-        });
-      }
-      throw new Error(`Issuance service error: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = response.data;
     
     if (!data.success) {
       return res.status(404).json({
@@ -90,6 +81,14 @@ app.post('/api/verify', async (req, res) => {
 
   } catch (error) {
     console.error('Error verifying credential:', error);
+    
+    if (error.response && error.response.status === 404) {
+      return res.status(404).json({
+        success: false,
+        message: 'Credential not found'
+      });
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Failed to verify credential'
