@@ -5,13 +5,11 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install --production
+# Install minimal dependencies
+RUN npm install express axios
 
-# Copy application files
-COPY index.js ./
-COPY server-direct.js ./
-COPY app.js ./
+# Copy standalone server
+COPY standalone-server.js ./
 
 # Expose port
 EXPOSE 3002
@@ -21,4 +19,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Start the application
-CMD ["node", "index.js"]
+CMD ["node", "standalone-server.js"]
