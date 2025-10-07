@@ -1,5 +1,4 @@
 const express = require('express');
-const helmet = require('helmet');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -12,8 +11,11 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
   
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin || 'none'}`);
+  
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
+    console.log('✅ Handling preflight request');
     res.status(200).end();
     return;
   }
@@ -22,9 +24,6 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
 app.use(express.json());
 
 // Health check endpoint
