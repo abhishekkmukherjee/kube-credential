@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import routes from './routes.js';
+import routes from './routes';
 
 const app = express();
 const PORT = process.env.PORT || 3002;

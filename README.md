@@ -1,211 +1,146 @@
-# Kube Credential System
+# Kube Credential Management System
 
-A complete microservice-based credential issuance and verification system built with Node.js, TypeScript, React, and Kubernetes. This system demonstrates modern cloud-native architecture with independent, scalable services.
+A modern credential management system built with React frontend and Node.js microservices backend.
 
 ## 🏗️ Architecture
 
-### Backend Services
-- **Issuance Service** (Port 3001): Issues credentials and tracks which worker handled each request
-- **Verification Service** (Port 3002): Verifies issued credentials against the issuance service
-- **Database**: SQLite for persistence (easily replaceable with PostgreSQL/MySQL)
-
 ### Frontend
-- **React Application** (Port 3000): Two-page interface for credential issuance and verification
-- **Responsive Design**: Clean, professional UI with real-time feedback
+- **React 18** with TypeScript
+- **React Router** for navigation
+- **Axios** for API communication
+- Responsive design with modern UI
 
-### Infrastructure
-- **Docker**: Containerized services with multi-stage builds
-- **Kubernetes**: Production-ready manifests with health checks and scaling
-- **Load Balancing**: Service discovery and load distribution
+### Backend Services
+- **Credential Issuance Service** (Port 3001)
+- **Credential Verification Service** (Port 3002)
+- Both built with Express.js and TypeScript
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Node.js 18+
+- npm
+
 ### Local Development
+
+1. **Clone the repository**
 ```bash
-# Install all dependencies
-cd backend/issuance && npm install
+git clone <repository-url>
+cd kube-credential
+```
+
+2. **Install dependencies**
+```bash
+# Install root dependencies
+npm install
+
+# Install frontend dependencies
+cd frontend && npm install
+
+# Install backend dependencies
+cd ../backend/issuance && npm install
 cd ../verification && npm install
-cd ../../frontend && npm install
-
-# Start services (3 terminals)
-cd backend/issuance && npm run dev     # Port 3001
-cd backend/verification && npm run dev # Port 3002
-cd frontend && npm start               # Port 3000
 ```
 
-### Docker Deployment
+3. **Start the services**
+
+Start all services with one command:
 ```bash
-# Build and start all services
-./scripts/build-images.sh
-docker-compose up -d
-
-# Test the deployment
-./scripts/test-services.sh
+npm run dev
 ```
 
-### Kubernetes Deployment
+Or start individually:
 ```bash
-# Deploy to Kubernetes cluster
-./scripts/deploy-k8s.sh
+# Terminal 1 - Issuance Service
+cd backend/issuance && npm run dev
 
-# Access via port forwarding
-kubectl port-forward -n kube-credential service/frontend-service 8080:80
+# Terminal 2 - Verification Service  
+cd backend/verification && npm run dev
+
+# Terminal 3 - Frontend
+cd frontend && npm run dev
 ```
 
-## 📋 Features
+4. **Access the application**
+- Frontend: http://localhost:3000
+- Issuance API: http://localhost:3001
+- Verification API: http://localhost:3002
 
-### Credential Issuance
-- ✅ Issue new credentials with unique IDs
-- ✅ Prevent duplicate issuance
-- ✅ Worker identification for each request
-- ✅ Support for multiple credential types
-- ✅ Optional expiry dates
-- ✅ Flexible data structure
+## 📁 Project Structure
 
-### Credential Verification
-- ✅ Verify credential authenticity
-- ✅ Check expiration status
-- ✅ Cross-service validation
-- ✅ Audit trail with timestamps
-- ✅ Worker tracking for verification
+```
+kube-credential/
+├── frontend/                 # React frontend application
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   ├── services/        # API services
+│   │   └── types.ts         # TypeScript types
+│   └── package.json
+├── backend/
+│   ├── issuance/           # Credential issuance service
+│   │   ├── src/
+│   │   │   ├── server.ts   # Express server
+│   │   │   ├── routes.ts   # API routes
+│   │   │   ├── service.ts  # Business logic
+│   │   │   └── database.ts # Data layer
+│   │   └── package.json
+│   └── verification/       # Credential verification service
+│       ├── src/
+│       │   ├── server.ts   # Express server
+│       │   ├── routes.ts   # API routes
+│       │   ├── service.ts  # Business logic
+│       │   └── database.ts # Data layer
+│       └── package.json
+└── scripts/                # Utility scripts
+```
 
-### User Interface
-- ✅ Intuitive credential issuance form
-- ✅ JSON-based verification interface
-- ✅ Real-time feedback and error handling
-- ✅ Sample data loading
-- ✅ Responsive design
+## 🔧 API Endpoints
 
-### DevOps & Deployment
-- ✅ Docker containerization
-- ✅ Kubernetes manifests
-- ✅ Health checks and monitoring
-- ✅ Horizontal pod autoscaling
-- ✅ Ingress routing
-- ✅ Production-ready configuration
+### Credential Issuance Service (Port 3001)
+- `GET /` - Service info
+- `GET /api/health` - Health check
+- `POST /api/credentials` - Issue new credential
+- `GET /api/credentials/:id` - Get credential by ID
+
+### Credential Verification Service (Port 3002)
+- `GET /` - Service info
+- `GET /api/health` - Health check
+- `POST /api/verify` - Verify credential
 
 ## 🧪 Testing
 
-### Unit Tests
+Run tests for all services:
 ```bash
-npm run test:all                    # All services
-npm run test:issuance              # Issuance service only
-npm run test:verification          # Verification service only
-npm run test:frontend              # Frontend only
+npm test
 ```
 
-### Integration Testing
+Run tests for individual services:
 ```bash
-# Start services and run integration tests
-docker-compose up -d
-./scripts/test-services.sh
+# Frontend tests
+cd frontend && npm test
+
+# Backend tests
+cd backend/issuance && npm test
+cd backend/verification && npm test
 ```
 
-### Manual Testing Scenarios
-1. **Issue New Credential**: Complete form → Get success message with worker ID
-2. **Duplicate Prevention**: Resubmit same data → Get "already issued" message
-3. **Verify Valid Credential**: Use issued credential JSON → Get "VALID" status
-4. **Verify Invalid Credential**: Use fake data → Get "INVALID" status
-5. **Expiry Check**: Use expired credential → Get "expired" message
+## 📝 Features
 
-## 📊 API Endpoints
-
-### Issuance Service (`/api`)
-- `GET /health` - Service health check
-- `POST /credentials` - Issue new credential
-
-### Verification Service (`/api`)
-- `GET /health` - Service health check  
-- `POST /verify` - Verify credential
-
-See [API.md](API.md) for detailed API documentation.
-
-## 🔧 Configuration
-
-### Environment Variables
-```bash
-# Issuance Service
-NODE_ENV=production
-PORT=3001
-WORKER_ID=worker-1
-
-# Verification Service  
-NODE_ENV=production
-PORT=3002
-WORKER_ID=verifier-1
-ISSUANCE_SERVICE_URL=http://issuance-service:3001
-
-# Frontend
-REACT_APP_ISSUANCE_API_URL=http://localhost:3001/api
-REACT_APP_VERIFICATION_API_URL=http://localhost:3002/api
-```
-
-## 📁 Project Structure
-```
-kube-credential/
-├── backend/
-│   ├── issuance/          # Credential issuance service
-│   └── verification/      # Credential verification service
-├── frontend/              # React application
-├── k8s/                   # Kubernetes manifests
-├── scripts/               # Deployment and testing scripts
-├── docker-compose.yml     # Local development setup
-└── docs/                  # Additional documentation
-```
-
-## 🚀 Cloud Deployment
-
-### AWS EKS
-1. Build and push images to ECR
-2. Update Kubernetes manifests with ECR image URLs
-3. Deploy using `kubectl apply -f k8s/`
-
-### Google GKE / Azure AKS
-1. Push images to respective container registries
-2. Update image references in manifests
-3. Deploy using provided Kubernetes configurations
-
-See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
-
-## 🔍 Monitoring & Observability
-
-- **Health Checks**: All services expose `/api/health` endpoints
-- **Logging**: Structured logging with request tracing
-- **Metrics**: Ready for Prometheus integration
-- **Kubernetes Probes**: Liveness and readiness checks configured
-
-## 🛡️ Security Features
-
-- **Helmet.js**: Security headers for Express services
-- **CORS**: Configurable cross-origin resource sharing
-- **Input Validation**: Request payload validation
-- **Non-root Containers**: Security-hardened Docker images
-- **Resource Limits**: Kubernetes resource constraints
-
-## 📚 Documentation
-
-- [API Documentation](API.md) - Complete API reference
-- [Deployment Guide](DEPLOYMENT.md) - Detailed deployment instructions  
-- [Testing Guide](TESTING.md) - Comprehensive testing procedures
+- **Credential Issuance**: Create and manage digital credentials
+- **Credential Verification**: Verify credential authenticity
+- **Responsive UI**: Works on desktop and mobile devices
+- **Microservices Architecture**: Scalable and maintainable
+- **TypeScript**: Type-safe development
+- **Testing**: Comprehensive test coverage
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure all tests pass
+3. Make your changes
+4. Add tests
 5. Submit a pull request
 
 ## 📄 License
 
-MIT License - see LICENSE file for details.
-
-## 👤 **Contact Information**
-
-**Name**: Abhishek Mukherjee  
-**Email**: mukherjeeabhishek207@gmail.com  
-
-
----
-
-**Built with ❤️ using Node.js, TypeScript, React, and Kubernetes**
+This project is licensed under the MIT License.

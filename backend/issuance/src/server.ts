@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
-import routes from './routes.js'; // adjust path if needed
+import routes from './routes';
 
 const app = express();
 
