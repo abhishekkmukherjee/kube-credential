@@ -2,11 +2,12 @@
   "name": "credential-issuance-service",
   "version": "1.0.0",
   "description": "Credential issuance microservice",
-  "main": "dist/server.js",
+  "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node index.js",
+    "postinstall": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch"
   },
