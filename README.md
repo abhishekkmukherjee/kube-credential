@@ -202,9 +202,9 @@ MIT License - see LICENSE file for details.
 
 ## 👤 **Contact Information**
 
-**Name**: [Your Full Name]  
-**Email**: [your.email@example.com]  
-**Contact Number**: [Your Phone Number]  
+**Name**: Abhishek Mukherjee  
+**Email**: mukherjeeabhishek207@gmail.com  
+
 
 ---
 
