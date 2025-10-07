@@ -13,7 +13,7 @@ services:
   - type: web
     name: kube-credential-issuance
     env: node
-    buildCommand: cd backend/issuance && npm ci
+    buildCommand: cd backend/issuance && npm ci && npm run build
     startCommand: cd backend/issuance && npm start
     envVars:
       - key: NODE_ENV
@@ -26,7 +26,7 @@ services:
   - type: web
     name: kube-credential-verification
     env: node
-    buildCommand: cd backend/verification && npm ci
+    buildCommand: cd backend/verification && npm ci && npm run build
     startCommand: cd backend/verification && npm start
     envVars:
       - key: NODE_ENV

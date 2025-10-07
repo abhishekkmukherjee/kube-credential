@@ -45,6 +45,20 @@ app.use(
 // ✅ JSON body parser
 app.use(express.json());
 
+// ✅ Root endpoint
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    service: 'Credential Issuance API',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      issueCredential: 'POST /api/credentials',
+      getCredential: 'GET /api/credentials/:id'
+    },
+    workerId: WORKER_ID
+  });
+});
+
 // ✅ Main API routes
 app.use('/api', routes);
 

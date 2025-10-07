@@ -29,6 +29,19 @@ app.use(helmet({
 }));
 app.use(express.json());
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    service: 'Credential Verification API',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      verifyCredential: 'POST /api/verify'
+    },
+    workerId: process.env.WORKER_ID || 'render-verification-worker-1'
+  });
+});
+
 // Routes
 app.use('/api', routes);
 

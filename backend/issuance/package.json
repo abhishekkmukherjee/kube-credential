@@ -2,11 +2,11 @@
   "name": "credential-issuance-service",
   "version": "1.0.0",
   "description": "Credential issuance microservice",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "echo 'No build needed for Railway - using direct JS files'",
-    "start": "node index.js",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

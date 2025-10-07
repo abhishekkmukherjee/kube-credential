@@ -2,14 +2,11 @@
   "name": "credential-verification-service",
   "version": "1.0.0",
   "description": "Credential verification microservice",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node index.js",
-    "start-old": "node app.js",
-    "railway:build": "npm ci && npm run build",
-    "railway:start": "node index.js",
+    "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
