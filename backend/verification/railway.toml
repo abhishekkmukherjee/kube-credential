@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "npm ci --only=production"
+buildCommand = "npm ci"
 
 [deploy]
 startCommand = "node index.js"
